@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import math
+import os
 from typing import Any
 
-import google.generativeai as genai
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -77,11 +77,8 @@ class AnalyzeResponse(BaseModel):
 def configure_optional_gemini() -> None:
     # Optional setup so Gemini can be used by future routes without extra wiring.
     # No network request is made here.
-    import os
-
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if api_key:
-        genai.configure(api_key=api_key)
+    # Note: google.generativeai is deprecated. Use google.genai for new implementations.
+    pass
 
 
 @app.post("/analyze", response_model=AnalyzeResponse)

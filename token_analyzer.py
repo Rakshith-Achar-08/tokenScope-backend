@@ -2,11 +2,14 @@
 
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass
 
 import tiktoken
 
+# Set cache directory to writable location to avoid permission errors
+os.environ["TIKTOKEN_CACHE_DIR"] = "/tmp/tiktoken_cache"
 
 _ENCODING = tiktoken.get_encoding("cl100k_base")
 _WHITESPACE_RE = re.compile(r"\s+")
