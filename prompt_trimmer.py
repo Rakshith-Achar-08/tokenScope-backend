@@ -30,7 +30,12 @@ def generate_trimmed_prompt(text: str, word_scores: list[dict[str, Any]]) -> str
         return ""
 
     meaningful_scores = [s["score"] for s in word_scores if s["score"] > 0.0]
-    cutoff = _percentile(meaningful_scores, 0.20) if meaningful_scores else 0.0
+    # --- SAFEGUARD INJECTED HERE ---
+    if len(word_scores) < 8:
+        cutoff = 0.0
+    else:
+        cutoff = _percentile(meaningful_scores, 0.20) if meaningful_scores else 0.0
+    # -------------------------------
 
     keep_word_by_index: dict[int, bool] = {}
     for entry in word_scores:
